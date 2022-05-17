@@ -1,0 +1,43 @@
+{
+  "name": "mern-todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run server:start",
+    "server:start": "node server/src/server.js --prefix server",
+    "server:watch": "npm run watch --prefix server",
+    "server:install": "npm i --prefix server",
+    "server:validate": "npm run validate --prefix server",
+    "client:install": "npm i --prefix client",
+    "client:validate": "npm run validate --prefix client",
+    "validate": "npm run server:validate & npm run client:validate",
+    "prepare": "husky install",
+    "install": "npm run client:install & npm run server:install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avadhutprabhudesai/mern-todo-app.git"
+  },
+  "author": "Avadhut Prabhudesai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avadhutprabhudesai/mern-todo-app/issues"
+  },
+  "homepage": "https://github.com/avadhutprabhudesai/mern-todo-app#readme",
+  "lint-staged": {
+    "**/*.(js|jsx|json|ts|tsx)": "npm run validate",
+    "**/*.(ts|tsx)": "npm run type-check"
+  },
+  "dependencies": {
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
