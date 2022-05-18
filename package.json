@@ -4,16 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run server:start",
-    "server:start": "node server/src/server.js --prefix server",
-    "server:watch": "npm run watch --prefix server",
-    "server:install": "npm i --prefix server",
-    "server:validate": "npm run validate --prefix server",
-    "client:install": "npm i --prefix client",
-    "client:validate": "npm run validate --prefix client",
-    "validate": "npm run server:validate & npm run client:validate",
-    "prepare": "husky install",
-    "install": "npm run client:install & npm run server:install"
+    "install": "npm i --prefix client & npm i --prefix server",
+    "dev": "npm run build:watch --prefix client & npm run dev --prefix server",
+    "start": "npm run build --prefix client && node server/src/server.js --prefix server",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",

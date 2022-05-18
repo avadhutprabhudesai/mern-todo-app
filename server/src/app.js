@@ -1,13 +1,28 @@
+const path = require('path');
 const express = require('express');
+const cors = require('cors');
+const ToDosRouter = require('./routes/todos.router');
 const app = express();
 
+/**
+ * Middlewares
+ */
 app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.get('/', (req, res) => {
-  res.send('Request received');
+app.use('/todos', ToDosRouter);
+app.use((err, req, res, next) => {
+  return res.status(err.status).json({
+    message: err.message,
+  });
 });
 
-const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log('server started successfully');
