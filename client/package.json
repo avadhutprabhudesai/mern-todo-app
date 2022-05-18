@@ -2,12 +2,11 @@
   "name": "client",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "start": "webpack serve --mode=development",
-    "prebuild": "npm run validate && npm test",
     "build": "vite build",
+    "build:watch": "vite build --watch",
     "preview": "vite preview",
     "pretest": "jest --clearCache --clearMocks",
     "test": "jest --watch",
