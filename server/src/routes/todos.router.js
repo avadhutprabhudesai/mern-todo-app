@@ -1,10 +1,10 @@
 const express = require('express');
 const {
-  getAllTodos,
-  createTodo,
-  updateTodo,
-  deleteTodo,
-  getTodoById,
+  httpUpdateTodo,
+  httpGetTodoById,
+  httpDeleteTodo,
+  httpGetAllTodos,
+  httpCreateTodo,
 } = require('../controllers/todos.controller');
 
 const ToDosRouter = express.Router();
@@ -20,12 +20,12 @@ const ToDosRouter = express.Router();
     DELETE /todos/1
  */
 
-ToDosRouter.route('/').get(getAllTodos).post(createTodo);
+ToDosRouter.route('/').get(httpGetAllTodos).post(httpCreateTodo);
 
 ToDosRouter.route('/:id')
-  .get(getTodoById)
-  .put(updateTodo)
-  .delete(deleteTodo)
+  .get(httpGetTodoById)
+  .patch(httpUpdateTodo)
+  .delete(httpDeleteTodo)
   .all((err, req, res, next) => {
     next(err);
   });

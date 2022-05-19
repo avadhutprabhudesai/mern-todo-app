@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
 const ToDosRouter = require('./routes/todos.router');
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
  */
 app.use(express.json());
 app.use(cors());
+app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/todos', ToDosRouter);
