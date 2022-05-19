@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "npm i --prefix client & npm i --prefix server",
+    "client:install": "npm i --prefix client",
+    "server:install": "npm i --prefix server",
+    "install": "npm run client:install && npm run server:install",
     "dev": "npm run build:watch --prefix client & npm run dev --prefix server",
     "start": "npm run build --prefix client && node server/src/server.js --prefix server",
     "prepare": "husky install"
