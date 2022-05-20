@@ -9,6 +9,7 @@
     "install": "npm run client:install && npm run server:install",
     "dev": "npm run build:watch --prefix client & npm run dev --prefix server",
     "start": "npm run build --prefix client && node server/src/server.js --prefix server",
+    "start-cluster": "npm run build --prefix client && npm run start-cluster --prefix server",
     "prepare": "husky install"
   },
   "repository": {
@@ -30,7 +31,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pm2": "^5.2.0"
   },
   "config": {
     "commitizen": {

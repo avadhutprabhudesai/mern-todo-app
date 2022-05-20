@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const cluster = require('cluster');
+const os = require('os');
 const ToDosRouter = require('./routes/todos.router');
 const app = express();
 
@@ -26,8 +28,15 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// if (cluster.isMaster) {
+//   const NUM_CORES = os.cpus().length;
+//   for (let i = 0; i < NUM_CORES; i++) {
+//     cluster.fork();
+//   }
+// } else {
+// }
 app.listen(PORT, () => {
-  console.log('server started successfully');
+  console.log(`Worker listening on ${PORT}`);
 });
 
 module.exports = app;
