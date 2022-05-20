@@ -28,15 +28,6 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// if (cluster.isMaster) {
-//   const NUM_CORES = os.cpus().length;
-//   for (let i = 0; i < NUM_CORES; i++) {
-//     cluster.fork();
-//   }
-// } else {
-// }
-app.listen(PORT, () => {
-  console.log(`Worker listening on ${PORT}`);
-});
+app.listen(PORT, () => {});
 
 module.exports = app;
