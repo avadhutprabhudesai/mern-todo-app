@@ -6,25 +6,59 @@ const {
   deleteTodo,
 } = require('../models/todos.model');
 
-const httpGetAllTodos = (req, res) => {
-  return res.status(200).json(getAllTodos());
+const httpGetAllTodos = async (req, res, next) => {
+  try {
+    return res.status(200).json(await getAllTodos());
+  } catch (error) {
+    let err = new Error(`Error occurred while fetching todos`);
+    err.status = 400;
+    next(err);
+  }
 };
-const httpGetTodoById = (req, res) => {
-  const todo = getTodoById(+req.params.id);
-  return res.status(200).json(todo);
+const httpGetTodoById = (req, res, next) => {
+  try {
+    const todo = getTodoById(+req.params.id);
+    return res.status(200).json(todo);
+  } catch (error) {
+    let err = new Error(
+      `Error occurred while fetching todo with id ${req.params.id}. ${error.message}`
+    );
+    err.status = 400;
+    next(err);
+  }
 };
 
-const httpCreateTodo = (req, res) => {
-  const todos = createTodo(req.body);
-  return res.status(200).json(todos);
+const httpCreateTodo = async (req, res, next) => {
+  try {
+    const created = await createTodo(req.body);
+    return res.status(201).json(created);
+  } catch (error) {
+    let err = new Error(`Error occurred while creating todo. ${error.message}`);
+    err.status = 400;
+    next(err);
+  }
 };
-const httpUpdateTodo = (req, res) => {
-  const todos = updateTodo(+req.params.id, req.body);
-  return res.status(200).json(todos);
+const httpUpdateTodo = async (req, res, next) => {
+  try {
+    const updated = await updateTodo(+req.params.id, req.body);
+    return res.status(200).json(updated);
+  } catch (error) {
+    let err = new Error(`Error occurred while updating todo. ${error.message}`);
+    err.status = 400;
+    next(err);
+  }
 };
-const httpDeleteTodo = (req, res) => {
-  const todos = deleteTodo(+req.params.id);
-  return res.status(200).json(todos);
+const httpDeleteTodo = async (req, res, next) => {
+  try {
+    const deleted = await deleteTodo(+req.params.id);
+    return res.status(200).json(deleted);
+  } catch (error) {
+    let err = new Error(
+      `Error occurred while deleting todo with id ${req.params.id}.${error.message}`
+    );
+    err.status = 400;
+    next(err);
+  }
 };
 
 module.exports = {

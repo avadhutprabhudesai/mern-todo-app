@@ -1,55 +1,54 @@
-const todos = [
-  {
-    id: 1,
-    title: 'Get Milk',
-    isDone: false,
-  },
-  {
-    id: 2,
-    title: 'Get eggs',
-    isDone: false,
-  },
-];
+const Todo = require('./todo.mongo');
 
-function getAllTodos() {
-  return todos;
+async function getAllTodos() {
+  const todosResponse = await Todo.find({});
+  return todosResponse;
 }
 
-function getTodoById(id) {
-  const todo = todos.find((t) => t.id === id);
+async function getTodoById(id) {
+  const todo = await Todo.findOne({ id });
   if (todo == null) {
-    let err = new Error(`No task was found with id ${id}`);
+    let err = new Error(`No todo was found with id ${id}`);
     err.status = 400;
     throw err;
   }
   return todo;
 }
 
-function createTodo(todo) {
-  todos.push(todo);
-  return todos;
+async function getLatestId() {
+  const latestTodo = await Todo.findOne().sort('-id');
+  if (!latestTodo) {
+    return 0;
+  }
+  return latestTodo.id;
 }
 
-function updateTodo(id, update) {
-  const updateIndex = todos.findIndex((t) => t.id === id);
-  if (updateIndex === -1) {
-    let err = new Error(`No task was found with id ${id}`);
+async function createTodo(todo) {
+  const latestId = await getLatestId();
+  const todoEntry = new Todo({ ...todo, id: latestId + 1 });
+  const saved = await todoEntry.save();
+  return saved;
+}
+
+async function updateTodo(id, update) {
+  const updated = await Todo.findOneAndUpdate({ id }, update, { new: true });
+  if (!updated) {
+    let err = new Error(`No todo was found with id ${id}`);
     err.status = 400;
     throw err;
   }
-  todos.splice(updateIndex, 1, { ...todos[updateIndex], ...update });
-  return todos;
+  return updated;
 }
 
-function deleteTodo(id) {
-  const deleteIndex = todos.findIndex((t) => t.id === id);
-  if (deleteIndex === -1) {
-    let err = new Error(`No task was found with id ${id}`);
+async function deleteTodo(id) {
+  const deleted = await Todo.findOneAndDelete({ id });
+  console.log('deleted', deleted);
+  if (deleted === null) {
+    let err = new Error(`No todo was found with id ${id}`);
     err.status = 400;
     throw err;
   }
-  todos.splice(deleteIndex, 1);
-  return todos;
+  return deleted;
 }
 
 module.exports = {
