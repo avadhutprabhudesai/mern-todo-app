@@ -1,7 +1,12 @@
+const { getPagination } = require('../services/query');
 const Todo = require('./todo.mongo');
 
-async function getAllTodos() {
-  const todosResponse = await Todo.find({});
+async function getAllTodos(query) {
+  const { limit, skip } = getPagination(query);
+  const todosResponse = await Todo.find({})
+    .sort({ id: 1 })
+    .skip(skip)
+    .limit(limit);
   return todosResponse;
 }
 

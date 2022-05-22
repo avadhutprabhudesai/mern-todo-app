@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 function getMongoDBURL(server = 'test') {
-  return `mongodb+srv://root:tpwKYwhLD35f7Nn6@mern-todo.0v21g.mongodb.net/${server}?retryWrites=true&w=majority`;
+  return server === 'test'
+    ? process.env.MONGO_TEST_URL
+    : process.env.MONGO_PROD_URL;
 }
 
 mongoose.connection.once('open', () => {

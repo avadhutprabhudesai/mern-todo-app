@@ -29,6 +29,7 @@
   "dependencies": {
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
+    "dotenv": "^16.0.1",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
     "morgan": "^1.10.0",

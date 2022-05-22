@@ -8,7 +8,7 @@ const {
 
 const httpGetAllTodos = async (req, res, next) => {
   try {
-    return res.status(200).json(await getAllTodos());
+    return res.status(200).json(await getAllTodos(req.query));
   } catch (error) {
     let err = new Error(`Error occurred while fetching todos`);
     err.status = 400;
