@@ -13,7 +13,7 @@ describe('Testing Todo CRUD', () => {
 
   beforeEach(async () => {
     await dropCollection('todos');
-    await request(app).post('/todos').send({
+    await request(app).post('/v1/todos').send({
       title: 'Get Milk',
       isDone: false,
     });
@@ -24,9 +24,9 @@ describe('Testing Todo CRUD', () => {
     await mongoDisconnect();
   });
 
-  it('POST /todos : creates a todo', async () => {
+  it('POST /v1/todos : creates a todo', async () => {
     const response = await request(app)
-      .post('/todos')
+      .post('/v1/todos')
       .send({
         title: 'Get Eggs',
         isDone: false,
@@ -40,9 +40,9 @@ describe('Testing Todo CRUD', () => {
       isDone: false,
     });
   });
-  it('GET /todos fetches the list of todos', async () => {
+  it('GET v1/todos fetches the list of todos', async () => {
     const response = await request(app)
-      .get('/todos')
+      .get('/v1/todos')
       .expect(200)
       .expect('Content-Type', /json/);
 
@@ -54,9 +54,9 @@ describe('Testing Todo CRUD', () => {
       },
     ]);
   });
-  it('GET /todos/:id fetch a single todo by id', async () => {
+  it('GET v1/todos/:id fetch a single todo by id', async () => {
     const response = await request(app)
-      .get('/todos/1')
+      .get('/v1/todos/1')
       .expect(200)
       .expect('Content-Type', /json/);
 
@@ -66,9 +66,9 @@ describe('Testing Todo CRUD', () => {
       isDone: false,
     });
   });
-  it('DELETE /todo/:id delete a todo by id', async () => {
+  it('DELETE v1/todo/:id delete a todo by id', async () => {
     const response = await request(app)
-      .delete('/todos/1')
+      .delete('/v1/todos/1')
       .expect(200)
       .expect('Content-Type', /json/);
 
@@ -78,9 +78,9 @@ describe('Testing Todo CRUD', () => {
       isDone: false,
     });
   });
-  it('PATCH /todos/:id update title of a todo by id', async () => {
+  it('PATCH v1/todos/:id update title of a todo by id', async () => {
     const response = await request(app)
-      .patch('/todos/1')
+      .patch('/v1/todos/1')
       .send({
         title: 'Get 2 litres of milk',
       })

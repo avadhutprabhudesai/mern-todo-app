@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const ToDosRouter = require('./routes/todos.router');
+const v1Router = require('./routes/apis/v1');
 const app = express();
 
 /**
@@ -13,7 +13,8 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use('/todos', ToDosRouter);
+app.use('/v1', v1Router);
+
 app.use((err, req, res, next) => {
   console.log('Error received here');
   return res.status(err.status).json({

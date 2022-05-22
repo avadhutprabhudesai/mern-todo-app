@@ -19,7 +19,10 @@
   "author": "",
   "license": "ISC",
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": [
+      "dotenv/config"
+    ]
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
