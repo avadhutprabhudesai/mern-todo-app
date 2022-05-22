@@ -42,7 +42,6 @@ async function updateTodo(id, update) {
 
 async function deleteTodo(id) {
   const deleted = await Todo.findOneAndDelete({ id });
-  console.log('deleted', deleted);
   if (deleted === null) {
     let err = new Error(`No todo was found with id ${id}`);
     err.status = 400;

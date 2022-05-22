@@ -15,9 +15,9 @@ const httpGetAllTodos = async (req, res, next) => {
     next(err);
   }
 };
-const httpGetTodoById = (req, res, next) => {
+const httpGetTodoById = async (req, res, next) => {
   try {
-    const todo = getTodoById(+req.params.id);
+    const todo = await getTodoById(+req.params.id);
     return res.status(200).json(todo);
   } catch (error) {
     let err = new Error(
