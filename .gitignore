@@ -1,5 +1,5 @@
 server/public
-
+*.pem
 
 # Logs
 logs
