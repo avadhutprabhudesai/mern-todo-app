@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
 const v1Router = require('./routes/apis/v1');
@@ -8,6 +9,7 @@ const app = express();
 /**
  * Middlewares
  */
+app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use(morgan('combined'));
