@@ -6,6 +6,8 @@ const {
   httpGetAllTodos,
   httpCreateTodo,
 } = require('../controllers/todos.controller');
+const { TodoSchema } = require('../middlewares/validators/joi-schemas');
+const joiMiddlware = require('../middlewares/validators/joi.middlware');
 
 const ToDosRouter = express.Router();
 
@@ -20,11 +22,13 @@ const ToDosRouter = express.Router();
     DELETE /todos/1
  */
 
-ToDosRouter.route('/').get(httpGetAllTodos).post(httpCreateTodo);
+ToDosRouter.route('/')
+  .get(httpGetAllTodos)
+  .post(joiMiddlware(TodoSchema), httpCreateTodo);
 
 ToDosRouter.route('/:id')
   .get(httpGetTodoById)
-  .patch(httpUpdateTodo)
+  .patch(joiMiddlware(TodoSchema), httpUpdateTodo)
   .delete(httpDeleteTodo)
   .all((err, req, res, next) => {
     next(err);
