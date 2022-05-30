@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        dir: '../server/public',
+        dir: '../server/dist/public',
       },
     },
   },

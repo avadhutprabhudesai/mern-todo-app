@@ -1,13 +1,13 @@
-const express = require('express');
-const {
+import express, { ErrorRequestHandler } from 'express';
+import {
   httpUpdateTodo,
   httpGetTodoById,
   httpDeleteTodo,
   httpGetAllTodos,
   httpCreateTodo,
-} = require('../controllers/todos.controller');
-const { TodoSchema } = require('../middlewares/validators/joi-schemas');
-const joiMiddlware = require('../middlewares/validators/joi.middlware');
+} from '../controllers/todos.controller';
+import { TodoSchema } from '../middlewares/validators/joi-schemas';
+import joiMiddlware from '../middlewares/validators/joi.middlware';
 
 const ToDosRouter = express.Router();
 
@@ -26,12 +26,14 @@ ToDosRouter.route('/')
   .get(httpGetAllTodos)
   .post(joiMiddlware(TodoSchema), httpCreateTodo);
 
+const errorHander: ErrorRequestHandler = (err, req, res, next) => {
+  next(err);
+};
+
 ToDosRouter.route('/:id')
   .get(httpGetTodoById)
   .patch(joiMiddlware(TodoSchema), httpUpdateTodo)
   .delete(httpDeleteTodo)
-  .all((err, req, res, next) => {
-    next(err);
-  });
+  .all(errorHander);
 
-module.exports = ToDosRouter;
+export default ToDosRouter;

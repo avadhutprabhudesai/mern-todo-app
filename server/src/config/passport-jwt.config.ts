@@ -1,16 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const passport = require('passport');
-const JWTStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const { getUserById } = require('../models/user.model');
+import fs from 'fs';
+import path from 'path';
+import passport from 'passport';
+import {
+  Strategy as JWTStrategy,
+  ExtractJwt,
+  StrategyOptions,
+} from 'passport-jwt';
+import { getUserById } from '../models/user.model';
 
 const publicKey = fs.readFileSync(
   path.join(__dirname, '..', 'public.pem'),
   'utf-8'
 );
 
-const options = {
+const options: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: publicKey,
   algorithms: ['RS256'],

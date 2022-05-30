@@ -8,8 +8,8 @@
     "server:install": "npm i --prefix server",
     "install": "npm run client:install && npm run server:install",
     "dev": "npm run build:watch --prefix client & npm run dev --prefix server",
-    "start": "npm run build --prefix client && node server/src/server.js --prefix server",
-    "start-cluster": "npm run build --prefix client && npm run start-cluster --prefix server",
+    "start": "npm run start --prefix server && npm run build --prefix client",
+    "start-cluster": "npm run start-cluster --prefix server && npm run build --prefix client",
     "prepare": "husky install"
   },
   "repository": {

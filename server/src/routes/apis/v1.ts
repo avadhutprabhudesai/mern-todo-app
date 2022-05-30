@@ -1,7 +1,7 @@
-const passport = require('passport');
-const express = require('express');
-const authRouter = require('../auth.router');
-const ToDosRouter = require('../todos.router');
+import passport from 'passport';
+import express from 'express';
+import authRouter from '../auth.router';
+import ToDosRouter from '../todos.router';
 
 const v1Router = express.Router();
 
@@ -15,4 +15,4 @@ v1Router.use(
   ToDosRouter
 );
 
-module.exports = v1Router;
+export default v1Router;

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const { generateKeyPairSync } = require('crypto');
+import fs from 'fs';
+import { generateKeyPairSync } from 'crypto';
 
 function genKeyPair() {
   // Generates an object where the keys are stored in properties `privateKey` and `publicKey`

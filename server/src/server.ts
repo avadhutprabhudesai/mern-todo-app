@@ -1,11 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-require('dotenv').config();
-const app = require('./app');
-const { mongoConnect } = require('./services/mongo');
+import fs from 'fs';
+import path from 'path';
+import https, { Server } from 'https';
+import 'dotenv/config';
+import app from './app';
+import { mongoConnect } from './services/mongo';
+import './typings/types';
+import { SERVERS } from './typings/types';
 
-const server = https.createServer(
+const server: Server = https.createServer(
   {
     key: fs.readFileSync(path.join(__dirname, '..', 'key.pem')),
     cert: fs.readFileSync(path.join(__dirname, '..', 'cert.pem')),
@@ -16,7 +18,7 @@ const server = https.createServer(
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
-  await mongoConnect('prod');
+  await mongoConnect(SERVERS.PROD);
   await server.listen(PORT, () => {
     console.log(`Worker listening on ${PORT}`);
   });
