@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ToDoSchema = new mongoose.Schema({
   id: {
@@ -23,7 +23,7 @@ const ToDoSchema = new mongoose.Schema({
 });
 
 ToDoSchema.methods.toJSON = function () {
-  var obj = this.toObject();
+  const obj = this.toObject();
   delete obj._id;
   delete obj.__v;
   return obj;
@@ -31,4 +31,4 @@ ToDoSchema.methods.toJSON = function () {
 
 const Todo = mongoose.model('Todo', ToDoSchema);
 
-module.exports = Todo;
+export default Todo;

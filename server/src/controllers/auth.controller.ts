@@ -1,11 +1,12 @@
-const { createUser, getUserByUsername } = require('../models/user.model');
-const {
-  encryptPassword,
-  issueJwt,
-  verifyPassword,
-} = require('../services/utils');
+import { NextFunction, Request, Response } from 'express';
+import { createUser, getUserByUsername } from '../models/user.model';
+import { encryptPassword, issueJwt, verifyPassword } from '../services/utils';
 
-const httpRegisterUser = async (req, res, next) => {
+const httpRegisterUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const [salt, hash] = encryptPassword(req.body.password);
     const created = await createUser({
@@ -18,11 +19,12 @@ const httpRegisterUser = async (req, res, next) => {
       user: created,
     });
   } catch (error) {
-    next(`Error creating user. ${error.message}`);
+    next(`Error creating user. ${(error as Error).message}`);
+    return;
   }
 };
 
-const httpLogin = async (req, res, next) => {
+const httpLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userFromDB = await getUserByUsername(req.body.username);
     const token = issueJwt(userFromDB);
@@ -39,13 +41,10 @@ const httpLogin = async (req, res, next) => {
         ...token,
       });
     } else {
-      next('User authentication failed');
+      return next('User authentication failed');
     }
   } catch (error) {
-    next(error.message);
+    return next((error as Error).message);
   }
 };
-module.exports = {
-  httpRegisterUser,
-  httpLogin,
-};
+export { httpRegisterUser, httpLogin };

@@ -1,9 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-require('dotenv').config();
-const app = require('./app');
-const { mongoConnect } = require('./services/mongo');
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
+import 'dotenv/config';
+import app from './app';
+import { mongoConnect } from './services/mongo';
+import './typings/types';
 
 const server = https.createServer(
   {
@@ -16,7 +17,7 @@ const server = https.createServer(
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
-  await mongoConnect('prod');
+  await mongoConnect('PROD');
   await server.listen(PORT, () => {
     console.log(`Worker listening on ${PORT}`);
   });
