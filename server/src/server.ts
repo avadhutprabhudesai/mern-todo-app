@@ -4,8 +4,7 @@ import https, { Server } from 'https';
 import 'dotenv/config';
 import app from './app';
 import { mongoConnect } from './services/mongo';
-import './typings/types';
-import { SERVERS } from './typings/types';
+import { SERVERS } from './types';
 
 const server: Server = https.createServer(
   {

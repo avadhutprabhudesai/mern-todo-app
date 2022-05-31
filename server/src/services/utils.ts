@@ -2,7 +2,7 @@ import { pbkdf2Sync, timingSafeEqual, randomBytes } from 'crypto';
 import jwt, { Algorithm, SignOptions } from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs';
-import { Payload, User } from '../typings/types';
+import { Payload, User } from '../types';
 
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, '..', 'private.pem'));
 

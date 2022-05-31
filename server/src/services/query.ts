@@ -1,4 +1,4 @@
-import { PaginationInput, PaginationOutput } from '../typings/types';
+import { PaginationInput, PaginationOutput } from '../types';
 
 const DEFAULT_LIMIT = 10;
 const DEFAULT_SKIP = 0;

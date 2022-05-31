@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import createHttpError from 'http-errors';
 import { all } from 'ramda';
 import {
   getAllTodos,
@@ -24,13 +25,9 @@ const httpGetAllTodos = async (
         })
       );
     }
-    next({
-      message: 'Invalid query params',
-      status: 400,
-    });
-    return;
+    return next(new createHttpError.BadRequest('Invalid query params'));
   } catch (error) {
-    next({ message: 'Error occurred while fetching todos', status: 400 });
+    next(new createHttpError.InternalServerError('Error fetching todos'));
     return;
   }
 };
@@ -41,17 +38,12 @@ const httpGetTodoById = async (
 ) => {
   try {
     const todo = await getTodoById(+req.params.id);
+    if (!todo) {
+      return next(new createHttpError.BadRequest('No todo found'));
+    }
     return res.status(200).json(todo);
   } catch (error) {
-    next({
-      ...new Error(
-        `Error occurred while fetching todo with id ${req.params.id}. ${
-          (error as Error).message
-        }`
-      ),
-      status: 400,
-    });
-    return;
+    return next(new createHttpError.InternalServerError('Error fetching todo'));
   }
 };
 
@@ -64,13 +56,7 @@ const httpCreateTodo = async (
     const created = await createTodo(req.body);
     return res.status(201).json(created);
   } catch (error) {
-    next({
-      ...new Error(
-        `Error occurred while creating todo. ${(error as Error).message}`
-      ),
-      status: 400,
-    });
-    return;
+    return next(new createHttpError.InternalServerError('Error creating todo'));
   }
 };
 const httpUpdateTodo = async (
@@ -80,15 +66,12 @@ const httpUpdateTodo = async (
 ) => {
   try {
     const updated = await updateTodo(+req.params.id, req.body);
+    if (!updated) {
+      return next(new createHttpError.BadRequest('No todo found'));
+    }
     return res.status(200).json(updated);
   } catch (error) {
-    next({
-      ...new Error(
-        `Error occurred while updating todo. ${(error as Error).message}`
-      ),
-      status: 400,
-    });
-    return;
+    return next(new createHttpError.InternalServerError('Error updating todo'));
   }
 };
 const httpDeleteTodo = async (
@@ -98,17 +81,12 @@ const httpDeleteTodo = async (
 ) => {
   try {
     const deleted = await deleteTodo(+req.params.id);
+    if (!deleted) {
+      return next(new createHttpError.BadRequest('No todo found'));
+    }
     return res.status(200).json(deleted);
   } catch (error) {
-    next({
-      ...new Error(
-        `Error occurred while deleting todo with id ${req.params.id}.${
-          (error as Error).message
-        }`
-      ),
-      status: 400,
-    });
-    return;
+    return next(new createHttpError.InternalServerError('Error deleting todo'));
   }
 };
 

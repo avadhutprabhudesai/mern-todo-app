@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import createHttpError from 'http-errors';
 import { createUser, getUserByUsername } from '../models/user.model';
 import { encryptPassword, issueJwt, verifyPassword } from '../services/utils';
-import { User } from '../typings/types';
 
 const httpRegisterUser = async (
   req: Request,
@@ -20,14 +20,17 @@ const httpRegisterUser = async (
       user: created,
     });
   } catch (error) {
-    next(`Error creating user. ${(error as Error).message}`);
+    next(new createHttpError.BadRequest('Unable to register'));
     return;
   }
 };
 
 const httpLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userFromDB = (await getUserByUsername(req.body.username)) as User;
+    const userFromDB = await getUserByUsername(req.body.username);
+    if (!userFromDB) {
+      return next(new createHttpError.NotFound('User not found'));
+    }
     const token = issueJwt(userFromDB);
     const isPasswordMatching = verifyPassword(
       req.body.password,
@@ -42,10 +45,14 @@ const httpLogin = async (req: Request, res: Response, next: NextFunction) => {
         ...token,
       });
     } else {
-      return next('User authentication failed');
+      return next(new createHttpError.Unauthorized('Login failed'));
     }
   } catch (error) {
-    return next((error as Error).message);
+    return next(
+      new createHttpError.InternalServerError(
+        'Server error occurred while loggin in'
+      )
+    );
   }
 };
 export { httpRegisterUser, httpLogin };

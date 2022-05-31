@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { SERVERS } from '../typings/types';
+import { SERVERS } from '../types';
 
 function getMongoDBURL(server: SERVERS) {
   return server === SERVERS.TEST
