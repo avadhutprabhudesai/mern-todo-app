@@ -22,9 +22,10 @@ app.use(passport.initialize());
 app.use('/v1', v1Router);
 
 const errorHander: ErrorRequestHandler = (err, req, res, next) => {
-  console.log('Error received here', err);
-  return res.status(err.status).json({
+  return res.status(err.statusCode).json({
+    success: false,
     message: err.message,
+    statusCode: err.statusCode,
   });
 };
 app.use(errorHander);

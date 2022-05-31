@@ -18,10 +18,6 @@ async function getAllTodos(query: PaginationInput) {
 
 async function getTodoById(id: number) {
   const todo = await Todos.findOne({ id });
-  if (todo == null) {
-    const err = new Error(`No todo was found with id ${id}`);
-    throw { ...err, status: 400 };
-  }
   return todo;
 }
 
@@ -42,18 +38,11 @@ async function createTodo(todo: Todo) {
 
 async function updateTodo(id: number, update: TodoUpdate) {
   const updated = await Todos.findOneAndUpdate({ id }, update, { new: true });
-  if (!updated) {
-    const err = new Error(`No todo was found with id ${id}`);
-    throw { ...err, status: 400 };
-  }
   return updated;
 }
 
 async function deleteTodo(id: number) {
   const deleted = await Todos.findOneAndDelete({ id });
-  if (deleted === null) {
-    throw { ...new Error(`No todo was found with id ${id}`), status: 400 };
-  }
   return deleted;
 }
 

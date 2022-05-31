@@ -7,6 +7,7 @@ import {
   StrategyOptions,
 } from 'passport-jwt';
 import { getUserById } from '../models/user.model';
+import createHttpError from 'http-errors';
 
 const publicKey = fs.readFileSync(
   path.join(__dirname, '..', 'public.pem'),
@@ -25,7 +26,7 @@ passport.use(
       const user = await getUserById(payload.sub);
       done(null, user);
     } catch (error) {
-      done(error, false);
+      done(new createHttpError.Forbidden('Authorization failed'), false);
     }
   })
 );
