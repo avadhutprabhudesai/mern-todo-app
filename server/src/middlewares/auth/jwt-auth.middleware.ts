@@ -12,18 +12,22 @@ const jwtAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     'jwt',
     { session: false },
     (err, user, status, info) => {
+      console.log('========jwt-auth-middleware');
       if (
         status instanceof TokenExpiredError ||
         status instanceof JsonWebTokenError ||
         status instanceof NotBeforeError
       ) {
+        console.log('========jwt error');
         return next(new createHttpError.Forbidden('Authentication failed'));
       }
 
       if (err) {
+        console.log('========err', err);
         return next(new createHttpError.Forbidden('Authentication failed'));
       }
       if (!user) {
+        console.log('========user error');
         return next(new createHttpError.NotFound('Authentication failed'));
       }
       req.user = user;

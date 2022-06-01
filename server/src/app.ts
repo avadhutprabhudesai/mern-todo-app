@@ -16,12 +16,19 @@ app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use(morgan('combined'));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'dist', 'public')));
 
 app.use(passport.initialize());
 app.use('/v1', v1Router);
 
+app.get('/', (req: Request, res: Response) => {
+  console.log('app.get(/)');
+  res.sendFile(path.join(__dirname, '..', 'dist', 'public', 'index.html'));
+});
 const errorHander: ErrorRequestHandler = (err, req, res, next) => {
+  console.log('====Global error handler');
+
+  console.log(err);
   return res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -29,9 +36,5 @@ const errorHander: ErrorRequestHandler = (err, req, res, next) => {
   });
 };
 app.use(errorHander);
-
-app.get('/', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
 
 export default app;

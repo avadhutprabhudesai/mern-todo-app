@@ -27,6 +27,7 @@ const httpGetAllTodos = async (
     }
     return next(new createHttpError.BadRequest('Invalid query params'));
   } catch (error) {
+    console.log('======httpGetAllTodos error', error);
     next(new createHttpError.InternalServerError('Error fetching todos'));
     return;
   }
