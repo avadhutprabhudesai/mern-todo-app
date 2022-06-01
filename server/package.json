@@ -5,9 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --watch --detectOpenHandles",
-    "compile": "tsc",
+    "compile": "rm -rf tsconfig.tsbuildinfo && tsc",
     "postcompile": "cp ./cert.pem ./key.pem ./dist && cp ./src/private.pem ./src/public.pem ./dist/src",
-    "start": "npm run compile && node ./dist/src/server.js",
     "start-cluster": "npm run compile && pm2 start ./dist/src/server.js -i max",
     "dev": "nodemon ./src/server.ts",
     "format": "prettier -c -w ./",
