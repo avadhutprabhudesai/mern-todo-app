@@ -1,0 +1,19 @@
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.section .before,
+.section .after {
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.sectionText {
+  font-weight: 400;
+  font-size: 20px;
+}

@@ -15,10 +15,7 @@
 
     // module and module resolution
     "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "components/*": ["./src/components/*"]
-    },
+    "rootDir": "./",
 
     // linter checks
     "noUnusedLocals": true,
@@ -33,6 +30,6 @@
     // Following one flag is equivalent of the four above
     /*"strict": true*/
   },
-  "include": ["./src/"],
+  "include": ["./*"],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  background-color: #ffffff;
+}
+
+.formInput {
+  flex: 1;
+  padding: 10px 15px;
+  box-shadow: 0 1px 5px 1px #dcdcdc;
+  border: none;
+  font-size: 18px;
+  font-family: inherit;
+  font-weight: 300;
+}
+
+.formInput:focus {
+  outline: none;
+  box-shadow: 0 5px 5px 3px #dcdcdc;
+}
+
+.formInput::placeholder {
+  font-size: 15px;
+}
