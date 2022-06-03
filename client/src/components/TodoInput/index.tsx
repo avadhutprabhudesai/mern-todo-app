@@ -1,11 +1,21 @@
 import React, { FormEvent, useState } from 'react';
 import style from './style.module.css';
+import { useDispatch } from 'react-redux';
+import { SAGA_ACTIONS } from '../../store/index';
 
 function TodoInput() {
   const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(title);
+    dispatch({
+      type: SAGA_ACTIONS.CREATE,
+      payload: {
+        title,
+        isDone: false,
+      },
+    });
+    setTitle('');
   };
   return (
     <form className={style.form} onSubmit={handleSubmit}>
