@@ -26,6 +26,8 @@
     "**/*.(ts|tsx)": "npm run type-check"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
+    "@types/react-redux": "^7.1.24",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.0.1",
@@ -33,7 +35,8 @@
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
     "morgan": "^1.10.0",
-    "pm2": "^5.2.0"
+    "pm2": "^5.2.0",
+    "react-redux": "^8.0.2"
   },
   "config": {
     "commitizen": {

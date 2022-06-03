@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 
 function joiMiddlware(joiSchema: Schema) {
   return (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
     const { error } = joiSchema.validate(req.body);
     if (error) {
       const errorMessages = error.details.map((x) => x.message);
