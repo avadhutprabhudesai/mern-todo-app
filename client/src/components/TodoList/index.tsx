@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 import { FaTrash, FaPen, FaCheckCircle, FaMinusCircle } from 'react-icons/fa';
 import style from './style.module.css';
 import { sagaBoundActionCreator } from '../../store/index';
@@ -10,13 +10,69 @@ type ListItemProps = {
   title: string;
   isDone: boolean;
 };
+
+function ConvertibleInput({
+  titleStr,
+  isEditable,
+  isDone,
+  value,
+  onChange,
+  onToggle,
+  onSubmit,
+  onToggleInputField,
+}: {
+  titleStr: string;
+  isEditable: boolean;
+  isDone: boolean;
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onToggle: () => void;
+  onSubmit: () => void;
+  onToggleInputField: MouseEventHandler;
+}) {
+  return (
+    <>
+      {isEditable && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+            onToggle();
+          }}
+        >
+          <input
+            type="text"
+            className={style.itemInput}
+            value={value}
+            onChange={onChange}
+            onBlur={(e) => {
+              onSubmit();
+              onToggle();
+            }}
+            autoFocus
+          />
+        </form>
+      )}
+      {!isEditable && (
+        <span
+          className={cx(style.itemText, isDone && style.crossedOut)}
+          onClick={onToggleInputField}
+          {...(!isDone && { title: titleStr })}
+        >
+          {value}
+        </span>
+      )}
+    </>
+  );
+}
+
 function TodoItem({ id, title, isDone }: ListItemProps) {
   const [showEdit, setShowEdit] = useState(false);
   const [inputVal, setInputVal] = useState(title);
 
   const { blocked } = useAppSelector((state) => state);
 
-  const toggleInputField = () => {
+  const handleToggleConvertible = () => {
     !isDone && setShowEdit((current) => !current);
   };
 
@@ -27,7 +83,6 @@ function TodoItem({ id, title, isDone }: ListItemProps) {
         title: inputVal,
       },
     });
-    toggleInputField();
   };
 
   const handleDelete = () => {
@@ -64,25 +119,16 @@ function TodoItem({ id, title, isDone }: ListItemProps) {
         <span>Saving changes...</span>
       ) : (
         <>
-          {showEdit && (
-            <input
-              type="text"
-              className={style.itemInput}
-              value={inputVal}
-              onChange={(e) => setInputVal(e.target.value)}
-              onBlur={handleTitleEdit}
-              autoFocus
-            />
-          )}
-          {!showEdit && (
-            <span
-              className={cx(style.itemText, isDone && style.crossedOut)}
-              onClick={toggleInputField}
-              {...(!isDone && { title: 'Click to edit' })}
-            >
-              {inputVal}
-            </span>
-          )}
+          <ConvertibleInput
+            titleStr="Click to edit"
+            isEditable={showEdit}
+            isDone={isDone}
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+            onToggle={handleToggleConvertible}
+            onSubmit={handleTitleEdit}
+            onToggleInputField={handleToggleConvertible}
+          />
           <div className={style.actions}>
             <FaTrash
               className={style.action}
@@ -91,7 +137,7 @@ function TodoItem({ id, title, isDone }: ListItemProps) {
             />
             <FaPen
               title="Edit"
-              onClick={toggleInputField}
+              onClick={handleToggleConvertible}
               className={cx(style.action, isDone && style.muted)}
             />
             {!isDone && (
