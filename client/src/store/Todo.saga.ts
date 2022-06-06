@@ -20,6 +20,7 @@ function* fetchAllTodosWorker() {
     yield put(todoSlice.actions.unsetLoading());
     yield put(todoSlice.actions.fetch(todos));
   } catch (error) {
+    yield put(todoSlice.actions.unsetLoading());
     yield put(todoSlice.actions.setError());
   }
 }
@@ -40,6 +41,7 @@ function* createTodoWorker({
     });
     yield put(todoSlice.actions.create(todo));
   } catch (error) {
+    yield put(todoSlice.actions.unsetLoading());
     yield put(todoSlice.actions.setError());
   }
 }
@@ -54,6 +56,7 @@ function* deleteTodoWorker(action: { type: string; payload: number }) {
     yield put(todoSlice.actions.releaseTodo(action.payload));
     yield put(todoSlice.actions.delete(deleted));
   } catch (error) {
+    yield put(todoSlice.actions.unsetLoading());
     yield put(todoSlice.actions.releaseTodo(action.payload));
     yield put(todoSlice.actions.setError());
   }
@@ -69,6 +72,7 @@ function* editTodoWorker(action: { type: string; payload: TodoActionPayload }) {
     yield put(todoSlice.actions.edit(edited));
     yield put(todoSlice.actions.releaseTodo(action.payload.id));
   } catch (error) {
+    yield put(todoSlice.actions.unsetLoading());
     yield put(todoSlice.actions.releaseTodo(action.payload.id));
     yield put(todoSlice.actions.setError());
   }
