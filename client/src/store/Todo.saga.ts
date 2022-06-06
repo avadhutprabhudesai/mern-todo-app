@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import todoSlice from './Todo.slice';
-import { Todo } from '../types';
+import { Todo, TodoActionPayload, TodoResponse } from '../types';
 import {
   createTodoAPI,
   deleteTodoAPI,
@@ -14,7 +14,7 @@ function* fetchAllTodosWorker() {
   try {
     yield put(todoSlice.actions.unsetError());
     yield put(todoSlice.actions.setLoading());
-    const todos: Todo[] = yield call(() => {
+    const todos: TodoResponse[] = yield call(() => {
       return fetchAllTodosAPI({ limit: 100, page: 1 });
     });
     yield put(todoSlice.actions.unsetLoading());
@@ -28,11 +28,11 @@ function* createTodoWorker({
   payload: { title, isDone },
 }: {
   type: string;
-  payload: Omit<Todo, 'id' | 'createdAt'>;
+  payload: Todo;
 }) {
   try {
     yield put(todoSlice.actions.unsetError());
-    const todo: Todo = yield call(() => {
+    const todo: TodoResponse = yield call(() => {
       return createTodoAPI({
         title,
         isDone,
@@ -48,7 +48,7 @@ function* deleteTodoWorker(action: { type: string; payload: number }) {
   try {
     yield put(todoSlice.actions.unsetError());
     yield put(todoSlice.actions.blockTodo(action.payload));
-    const deleted: Todo = yield call(() => {
+    const deleted: TodoResponse = yield call(() => {
       return deleteTodoAPI({ id: action.payload });
     });
     yield put(todoSlice.actions.releaseTodo(action.payload));
@@ -59,12 +59,12 @@ function* deleteTodoWorker(action: { type: string; payload: number }) {
   }
 }
 
-function* editTodoWorker(action: { type: string; payload: Todo }) {
+function* editTodoWorker(action: { type: string; payload: TodoActionPayload }) {
   try {
     yield put(todoSlice.actions.unsetError());
     yield put(todoSlice.actions.blockTodo(action.payload.id));
-    const edited: Todo = yield call(() => {
-      return editTodoAPI({ todo: action.payload });
+    const edited: TodoResponse = yield call(() => {
+      return editTodoAPI(action.payload.id, action.payload.update);
     });
     yield put(todoSlice.actions.edit(edited));
     yield put(todoSlice.actions.releaseTodo(action.payload.id));

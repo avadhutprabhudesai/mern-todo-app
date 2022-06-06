@@ -2,9 +2,8 @@ import cx from 'classnames';
 import { useState } from 'react';
 import { FaTrash, FaPen, FaCheckCircle, FaMinusCircle } from 'react-icons/fa';
 import style from './style.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { SAGA_ACTIONS } from '../../store/index';
-import { State } from '../../types';
+import { sagaBoundActionCreator } from '../../store/index';
+import { useAppSelector } from '../../hooks';
 
 type ListItemProps = {
   id: number;
@@ -15,19 +14,16 @@ function TodoItem({ id, title, isDone }: ListItemProps) {
   const [showEdit, setShowEdit] = useState(false);
   const [inputVal, setInputVal] = useState(title);
 
-  const { blocked }: State = useSelector((state) => state as State);
-  console.log(id, blocked);
-  const dispatch = useDispatch();
+  const { blocked } = useAppSelector((state) => state);
 
   const toggleInputField = () => {
     !isDone && setShowEdit((current) => !current);
   };
 
   const handleTitleEdit = () => {
-    dispatch({
-      type: SAGA_ACTIONS.EDIT,
-      payload: {
-        id,
+    sagaBoundActionCreator.edit({
+      id,
+      update: {
         title: inputVal,
       },
     });
@@ -35,27 +31,22 @@ function TodoItem({ id, title, isDone }: ListItemProps) {
   };
 
   const handleDelete = () => {
-    dispatch({
-      type: SAGA_ACTIONS.DELETE,
-      payload: id,
-    });
+    sagaBoundActionCreator.delete({ id });
   };
 
   const handleMarkAsDone = () => {
-    dispatch({
-      type: SAGA_ACTIONS.EDIT,
-      payload: {
-        id,
+    sagaBoundActionCreator.edit({
+      id,
+      update: {
         title,
         isDone: true,
       },
     });
   };
   const handleMarkAsUnDone = () => {
-    dispatch({
-      type: SAGA_ACTIONS.EDIT,
-      payload: {
-        id,
+    sagaBoundActionCreator.edit({
+      id,
+      update: {
         title,
         isDone: false,
       },
