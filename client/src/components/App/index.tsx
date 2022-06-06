@@ -4,20 +4,14 @@ import style from './style.module.css';
 import TodoList from '../TodoList/index';
 import TodoInput from '../TodoInput/index';
 import SectionDivider from '../SectionDivider/index';
-import { SAGA_ACTIONS } from '../../store/index';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { State } from '../../types';
+import { sagaBoundActionCreator } from '../../store/index';
+import { useAppSelector } from '../../hooks';
 
 function App() {
-  const { data: todos, isLoading } = useSelector((state: State) => state);
-  const dispatch = useDispatch();
-  console.log('state in list', todos);
+  const { data: todos, isLoading } = useAppSelector((state) => state);
 
   useEffect(() => {
-    dispatch({
-      type: SAGA_ACTIONS.FETCH,
-    });
+    sagaBoundActionCreator.fetch();
   }, []);
 
   return (

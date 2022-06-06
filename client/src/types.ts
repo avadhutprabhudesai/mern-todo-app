@@ -1,14 +1,34 @@
-type State = {
+type TodoState = {
   isLoading: boolean;
   error: boolean;
-  data: Todo[];
+  data: TodoResponse[];
   blocked: number[];
 };
+
 type Todo = {
-  id: number;
   title: string;
   isDone: boolean;
-  createdAt: string;
 };
 
-export { Todo, State };
+type TodoResponse = Todo & { id: number; createdAt: string };
+
+type TodoUpdate = Omit<Partial<TodoResponse>, 'id'>;
+
+type TodoActionPayload = {
+  id: number;
+  update: TodoUpdate;
+};
+
+type PaginationQuery = {
+  limit?: number;
+  page?: number;
+};
+
+export {
+  Todo,
+  TodoState,
+  PaginationQuery,
+  TodoUpdate,
+  TodoActionPayload,
+  TodoResponse,
+};

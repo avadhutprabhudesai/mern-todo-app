@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { State } from '../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TodoResponse, TodoState } from '../types';
 
 /**
  * ============= Redux slice ==============
  */
 
-const initialState: State = {
+const initialState: TodoState = {
   isLoading: false,
   error: false,
   data: [],
@@ -28,26 +28,22 @@ const todoSlice = createSlice({
     unsetError: (state) => {
       state.error = false;
     },
-    blockTodo: (state, action) => {
+    blockTodo: (state, action: PayloadAction<number>) => {
       state.blocked.push(action.payload);
     },
-    releaseTodo: (state, action) => {
+    releaseTodo: (state, action: PayloadAction<number>) => {
       state.blocked = state.blocked.filter((b) => b !== action.payload);
     },
-    fetch: (state, action) => {
-      console.log('action in todoslice/fetch', action);
+    fetch: (state, action: PayloadAction<TodoResponse[]>) => {
       state.data = action.payload;
     },
-    create: (state, action) => {
-      console.log('action in todoslice/create', action);
+    create: (state, action: PayloadAction<TodoResponse>) => {
       state.data.push(action.payload);
     },
-    delete: (state, action) => {
-      console.log('action in todoslice/delete', action);
+    delete: (state, action: PayloadAction<TodoResponse>) => {
       state.data = state.data.filter((todo) => todo.id !== action.payload.id);
     },
-    edit: (state, action) => {
-      console.log('action in todoslice/delete', action);
+    edit: (state, action: PayloadAction<TodoResponse>) => {
       state.data = state.data.map((todo) => {
         if (todo.id === action.payload.id) {
           return action.payload;
