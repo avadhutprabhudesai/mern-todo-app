@@ -18,16 +18,15 @@ export default defineConfig(({ command, mode }) => {
         https: true,
       },
     };
-  } else if (mode === 'production') {
-    return {
-      plugins: [react()],
-      build: {
-        rollupOptions: {
-          output: {
-            dir: '../server/dist/public',
-          },
+  }
+  return {
+    plugins: [react()],
+    build: {
+      rollupOptions: {
+        output: {
+          dir: './public',
         },
       },
-    };
-  }
+    },
+  };
 });

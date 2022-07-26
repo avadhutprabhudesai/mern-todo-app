@@ -12,7 +12,6 @@ const jwtAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     'jwt',
     { session: false },
     (err, user, status, info) => {
-      console.log('========jwt-auth-middleware');
       if (
         status instanceof TokenExpiredError ||
         status instanceof JsonWebTokenError ||
