@@ -14,7 +14,9 @@
     "lint:staged": "lint-staged",
     "type-check": "tsc --noEmit",
     "ts": "tsc --watch",
-    "validate": "npm run lint && npm run type-check && npm run format"
+    "validate": "npm run lint && npm run format",
+    "build": "npm run compile && mkdir dist/public && cp -R ../client/public/ ./dist/",
+    "start": "pm2-runtime start ./dist/src/server.js -i max"
   },
   "keywords": [],
   "author": "",
@@ -27,16 +29,23 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "@types/dotenv": "^8.2.0",
+    "@types/helmet": "^4.0.0",
+    "@types/supertest": "^2.0.12",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "helmet": "^5.1.0",
     "http-errors": "^2.0.0",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.4",
+    "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "pm2": "^5.2.0",
-    "ramda": "^0.28.0"
+    "ramda": "^0.28.0",
+    "supertest": "^6.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

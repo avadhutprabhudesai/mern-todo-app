@@ -3,6 +3,8 @@ import { PaginationQuery, Todo, TodoUpdate } from '../types';
  * ============= API ==============
  */
 
+const API_URL = '/v1';
+
 function httpGET(url: string) {
   return fetch(url);
 }
@@ -33,19 +35,15 @@ function httpPATCH(url: string, todo: TodoUpdate) {
 }
 
 export async function fetchAllTodosAPI({ limit, page }: PaginationQuery) {
-  return (
-    await httpGET(`https://localhost:5000/v1/todos?limit=${limit}&page=${page}`)
-  ).json();
+  return (await httpGET(`${API_URL}/todos?limit=${limit}&page=${page}`)).json();
 }
 
 export async function createTodoAPI(todo: Todo) {
-  return (await httpPOST(`https://localhost:5000/v1/todos`, todo)).json();
+  return (await httpPOST(`${API_URL}/todos`, todo)).json();
 }
 export async function deleteTodoAPI({ id }: { id: number }) {
-  return (await httpDELETE(`https://localhost:5000/v1/todos/${id}`)).json();
+  return (await httpDELETE(`${API_URL}/todos/${id}`)).json();
 }
 export async function editTodoAPI(id: number, update: TodoUpdate) {
-  return (
-    await httpPATCH(`https://localhost:5000/v1/todos/${id}`, update)
-  ).json();
+  return (await httpPATCH(`${API_URL}/todos/${id}`, update)).json();
 }
